@@ -47,8 +47,7 @@ const ProductDetail = () => {
       const { data } = await supabase
         .from('product_sizes')
         .select('*')
-        .eq('product_id', id)
-        .gt('stock', 0);
+        .eq('product_id', id);
       return data || [];
     },
   });
@@ -169,10 +168,14 @@ const ProductDetail = () => {
                       <Button
                         key={size.id}
                         variant={selectedSize === size.size ? "default" : "outline"}
-                        onClick={() => setSelectedSize(size.size)}
-                        className="h-12"
+                        onClick={() => size.stock > 0 && setSelectedSize(size.size)}
+                        disabled={size.stock === 0}
+                        className="h-12 flex flex-col"
                       >
-                        {size.size}
+                        <span>{size.size}</span>
+                        {size.stock === 0 && (
+                          <span className="text-xs">Sold Out</span>
+                        )}
                       </Button>
                     ))}
                   </div>
