@@ -22,6 +22,7 @@ const Auth = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ email: "", password: "", fullName: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +36,17 @@ const Auth = () => {
         password: loginData.password,
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('Email not confirmed')) {
+          toast({
+            title: "Email not verified",
+            description: "Please check your email and click the verification link before logging in.",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw error;
+      }
 
       toast({
         title: "Welcome back!",
@@ -85,11 +96,11 @@ const Auth = () => {
 
       if (error) throw error;
 
+      setShowVerificationMessage(true);
       toast({
-        title: "Account created!",
-        description: "You have successfully signed up.",
+        title: "Check your email!",
+        description: "We've sent you a verification link. Please check your email to verify your account.",
       });
-      navigate('/');
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {};
@@ -110,6 +121,35 @@ const Auth = () => {
       setIsLoading(false);
     }
   };
+
+  if (showVerificationMessage) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">Check Your Email</CardTitle>
+            <CardDescription className="text-center">
+              We've sent a verification link to your email address
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="bg-primary/10 p-4 rounded-lg text-center">
+              <p className="text-sm">
+                Please check your email inbox and click the verification link to activate your account.
+              </p>
+            </div>
+            <Button 
+              onClick={() => setShowVerificationMessage(false)} 
+              variant="outline" 
+              className="w-full"
+            >
+              Back to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
