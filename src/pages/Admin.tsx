@@ -283,6 +283,39 @@ const Admin = () => {
             </Table>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Order Deatils</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Total</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders?.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-mono">{order.id.slice(0, 8)}...</TableCell>
+                    <TableCell>{order.shipping_address}</TableCell>
+                    <TableCell>{format(new Date(order.created_at), 'PP')}</TableCell>
+                    <TableCell>₹{order.total_amount}</TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-primary/10 text-primary">
+                        {order.status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
