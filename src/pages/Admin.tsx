@@ -148,6 +148,7 @@ const Admin = () => {
         <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* total Revenue */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -157,7 +158,7 @@ const Admin = () => {
               <div className="text-2xl font-bold">₹{totalRevenue.toFixed(2)}</div>
             </CardContent>
           </Card>
-          
+          {/* total Orders */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
@@ -167,7 +168,7 @@ const Admin = () => {
               <div className="text-2xl font-bold">{totalOrders}</div>
             </CardContent>
           </Card>
-          
+          {/* total Products */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Products</CardTitle>
@@ -193,7 +194,7 @@ const Admin = () => {
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody>5
                 {products?.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell className="font-medium">{product.name}</TableCell>
@@ -285,7 +286,7 @@ const Admin = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Order Deatils</CardTitle>
+            <CardTitle>Order Details</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
@@ -294,7 +295,7 @@ const Admin = () => {
                   <TableHead>Order ID</TableHead>
                   <TableHead>Customer</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead>Total</TableHead>
+                  <TableHead>Address</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
@@ -302,9 +303,10 @@ const Admin = () => {
                 {orders?.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-mono">{order.id.slice(0, 8)}...</TableCell>
-                    <TableCell>{order.shipping_address}</TableCell>
+                    <TableCell>{order.customer_name}</TableCell>
                     <TableCell>{format(new Date(order.created_at), 'PP')}</TableCell>
-                    <TableCell>₹{order.total_amount}</TableCell>
+                    
+                    <TableCell>{order.shipping_address}</TableCell>
                     <TableCell>
                       <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-primary/10 text-primary">
                         {order.status}
